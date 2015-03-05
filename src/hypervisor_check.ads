@@ -11,6 +11,8 @@ package Hypervisor_Check is
 
     function String_of_U32 (Arg : Unsigned_32) return Unbounded_String;
 
+    function Hypervisor_Present return Boolean;
+
     function Get_Vendor_String return Unbounded_String;
 
 end Hypervisor_Check;
