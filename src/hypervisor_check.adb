@@ -24,6 +24,20 @@ package body Hypervisor_Check is
         return Result;
     end String_of_U32;
 
+    -- Hypervisors should set the bit 31 of %ecx to 1 in CPUID leaf 1
+    function Hypervisor_Present return Boolean is
+        Registers : CPUID_Registers;
+        ECX : Unsigned_32;
+    begin
+        Registers := CPUID (1);
+        ECX := Shift_Right (Registers(3), 31);
+        if (ecx and 1) = 1 then
+            return True;
+        else
+            return False;
+        end if;
+    end Hypervisor_Present;
+
     function Get_Vendor_String return Unbounded_String is
         Vendor_String : Unbounded_String;
         Registers : CPUID_Registers;
