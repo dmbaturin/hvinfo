@@ -12,13 +12,13 @@ package body Hypervisor_Check is
         return (eax, ebx, ecx, edx);
     end CPUID;
 
-    function String_of_U32 (Arg : Unsigned_32) return Unbounded_String is
+    function String_of_U32 (Arg : Unsigned_32) return US.Unbounded_String is
         Word : Unsigned_32;
-        Result : Unbounded_String;
+        Result : US.Unbounded_String;
     begin
         Word := Arg;
         while Word > 0 loop
-            Append (Result, Character'Val (Word and 16#FF#));
+            US.Append (Result, Character'Val (Word and 16#FF#));
             Word := Shift_Right (Word, 8);
         end loop;
         return Result;
@@ -38,8 +38,9 @@ package body Hypervisor_Check is
         end if;
     end Hypervisor_Present;
 
-    function Get_Vendor_String return Unbounded_String is
-        Vendor_String : Unbounded_String;
+    function Get_Vendor_String return US.Unbounded_String is
+        use US;
+        Vendor_String : US.Unbounded_String;
         Registers : CPUID_Registers;
     begin
         Registers := CPUID (Hypervisor_Leaf);
@@ -48,5 +49,25 @@ package body Hypervisor_Check is
                          String_of_U32 (Registers(4));
         return Vendor_String;
     end Get_Vendor_String;
+
+    function Get_Vendor_Name return US.Unbounded_String is
+        use US;
+        Vendor_String, Vendor_Name : Unbounded_String;
+    begin
+        Vendor_String := Get_Vendor_String;
+	if Vendor_String = "KVMKVMKVM" then
+            Vendor_Name := To_Unbounded_String ("KVM");
+        elsif Vendor_String = "XenVMMXenVMM" then
+            Vendor_Name := To_Unbounded_String ("Xen");
+        elsif Vendor_String = "VMwareVMware" then
+            Vendor_Name := To_Unbounded_String ("VMWare");
+        elsif Vendor_String = "Microsoft Hv" then
+            Vendor_Name := To_Unbounded_String ("Microsoft Hyper-V");
+        else
+            Vendor_Name := To_Unbounded_String  ("Unknown hypervisor");
+        end if;
+        return Vendor_Name;
+    end Get_Vendor_Name;
+
 
 end Hypervisor_Check;
