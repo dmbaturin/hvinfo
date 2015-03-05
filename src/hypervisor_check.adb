@@ -54,8 +54,8 @@ package body Hypervisor_Check is
         use US;
         Vendor_String, Vendor_Name : Unbounded_String;
     begin
-        Vendor_String := Get_Vendor_String;
-	if Vendor_String = "KVMKVMKVM" then
+	Vendor_String := Get_Vendor_String;
+        if Vendor_String = "KVMKVMKVM" then
             Vendor_Name := To_Unbounded_String ("KVM");
         elsif Vendor_String = "XenVMMXenVMM" then
             Vendor_Name := To_Unbounded_String ("Xen");
@@ -68,6 +68,5 @@ package body Hypervisor_Check is
         end if;
         return Vendor_Name;
     end Get_Vendor_Name;
-
 
 end Hypervisor_Check;
