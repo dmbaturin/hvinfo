@@ -27,17 +27,17 @@ package body Hypervisor_Check is
     -- Hypervisors should set the bit 31 of %ecx to 1 in CPUID leaf 1
     function Hypervisor_Present return Boolean is
         Registers : CPUID_Registers;
-        ECX : Unsigned_32;
     begin
         Registers := CPUID (1);
-        ECX := Shift_Right (Registers(3), 31);
-        if (ecx and 1) = 1 then
+        if (((Shift_Right (Registers(3), 31)) and 1) = 1) then
             return True;
         else
             return False;
         end if;
     end Hypervisor_Present;
 
+    -- Calling CPUID instruction with hypervisor leaf in %eax
+    -- puts the vendor string in %ebx, %ecx, and %edx
     function Get_Vendor_String return US.Unbounded_String is
         use US;
         Vendor_String : US.Unbounded_String;
