@@ -1,6 +1,5 @@
 with Interfaces; use Interfaces;
 with System.Machine_Code; use System.Machine_Code;
---with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Strings.Unbounded;
 
 package Hypervisor_Check is
