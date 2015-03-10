@@ -6,6 +6,7 @@ with Hypervisor_Check; use Hypervisor_Check;
 
 procedure HVInfo is
     package US renames Ada.Strings.Unbounded;
+    package CL renames Ada.Command_Line;
     CPUID_HV_Name, SMBIOS_HV_Name, Hypervisor_Name : US.Unbounded_String;
 begin
     CPUID_HV_Name := US.To_Unbounded_String ("");
@@ -21,12 +22,12 @@ begin
         use US;
     begin
         if (CPUID_HV_Name = "") and (SMBIOS_HV_Name = "") then
-            Set_Exit_Status (1);
+            CL.Set_Exit_Status (1);
         elsif (CPUID_HV_Name /= "") then
-            Set_Exit_Status (0);
+            CL.Set_Exit_Status (0);
             UIO.Put_Line (CPUID_HV_Name);
         else
-            Set_Exit_Status (0);
+            CL.Set_Exit_Status (0);
             UIO.Put_Line (SMBIOS_HV_Name); 
         end if;
     end;
