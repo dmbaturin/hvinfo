@@ -1,6 +1,6 @@
 with Ada.Strings.Unbounded;
-with Ada.Text_IO.Unbounded_IO; use Ada.Text_IO.Unbounded_IO;
-with Ada.Command_Line; use Ada.Command_Line;
+with Ada.Text_IO.Unbounded_IO;
+with Ada.Command_Line;
 
 with Hypervisor_Check; use Hypervisor_Check;
 
