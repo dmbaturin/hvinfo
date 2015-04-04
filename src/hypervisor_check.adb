@@ -99,7 +99,7 @@ package body Hypervisor_Check is
     function DMI_Available return Boolean is
     begin
         if Config.Linux then
-            if Directories.Exists("/sys/class/dmi") then
+            if Ada.Directories.Exists("/sys/class/dmi") then
                 return True;
             else
                 return False;
