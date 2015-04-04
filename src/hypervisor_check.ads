@@ -1,4 +1,5 @@
 with Interfaces; use Interfaces;
+with Interfaces.C;
 with System.Machine_Code; use System.Machine_Code;
 with Ada.Strings.Unbounded;
 with Ada.Text_IO;
@@ -27,6 +28,8 @@ package Hypervisor_Check is
 
     function Known_DMI_HV_Vendor (Name : US.Unbounded_String) return Boolean;
 
+    function Command_Succeeds (Command : Interfaces.C.Char_Array) return Boolean;
+
     -- Vendor names for human consumption
     VMWare : constant String := "VMWare";
     Xen_HVM : constant String := "Xen HVM";
@@ -44,6 +47,12 @@ private
     -- Linux-specific file names etc.
     Linux_Sys_Vendor_File : constant String := "/sys/class/dmi/id/sys_vendor";
     Linux_Sys_HV_Type_File : constant String := "/sys/hypervisor/type";
+
+    -- FreeBSD-specific file names, commands etc.
+
+    -- sysctl read commands are available to unprivileged users, but sysctl binary
+    -- may not be in the $PATH, hence the absolute path
+    FreeBSD_Xen_Present_Command : constant String := "/sbin/sysctl kern.vm_guest | grep xen";
 
     -- SMBIOS vendor strings
     VMWare_DMI_Pattern : constant String := "VMware, Inc.";

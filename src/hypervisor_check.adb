@@ -61,6 +61,8 @@ package body Hypervisor_Check is
             else
                 return False;
             end if;
+        elsif Config.FreeBSD then
+            return Command_Succeeds(Interfaces.C.To_C(FreeBSD_Xen_Present_Command));
         else
             raise OS_Not_Supported;
         end if;
@@ -77,6 +79,23 @@ package body Hypervisor_Check is
             return False;
         end if;
     end Hypervisor_Present;
+
+    -- Execute a system command and return true if it succeeded
+    -- (i.e. returned 0)
+    function Command_Succeeds (Command : Interfaces.C.Char_Array) return Boolean is
+        use Interfaces.C;
+        function Sys (Arg : Char_Array) return Integer;
+        pragma Import(C, Sys, "system");
+
+        Ret_Val : Integer;
+    begin
+        Ret_Val := Sys(Command);
+        if Ret_Val > 0 then
+            return False;
+        else
+            return True;
+        end if;
+    end Command_Succeeds;
 
     -- Calling CPUID instruction with hypervisor leaf in %eax
     -- puts the vendor string in %ebx, %ecx, and %edx
@@ -111,16 +130,22 @@ package body Hypervisor_Check is
         return Vendor_Name;
     end Get_Vendor_Name;
 
+    -- There are two cases: 1. DMI is not available on a _system_
+    -- (paravirtualized guests are notable examples)
+    -- 2. the OS doesn't have a DMI API available to unprivileged users
     function DMI_Available return Boolean is
     begin
         if Config.Linux then
+            -- Linux provides DMI info via sysfs, but on systems
+            -- without SMBIOS it's not available
             if Ada.Directories.Exists("/sys/class/dmi") then
                 return True;
             else
                 return False;
             end if;
         else
-            raise OS_Not_Supported;
+            -- Other OSes don't have DMI API we can use
+            return False;
         end if;
     end DMI_Available;
 
