@@ -102,7 +102,7 @@ package body Hypervisor_Check is
         if Config.Linux then
             Name := Head_Of_File (Linux_Sys_Vendor_File);
         else
-            Name := US.To_Unbounded_String("");
+            raise OS_Not_Supported;
         end if;
 
         return Name;

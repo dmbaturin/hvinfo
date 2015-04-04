@@ -12,6 +12,8 @@ package Hypervisor_Check is
     package US renames Ada.Strings.Unbounded;
     package UIO renames Ada.Text_IO.Unbounded_IO;
 
+    OS_Not_Supported : exception;
+
     function Get_Vendor_Name return US.Unbounded_String;
 
     function Hypervisor_Present return Boolean;
