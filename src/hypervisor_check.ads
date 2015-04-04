@@ -52,7 +52,7 @@ private
 
     -- sysctl read commands are available to unprivileged users, but sysctl binary
     -- may not be in the $PATH, hence the absolute path
-    FreeBSD_Xen_Present_Command : constant String := "/sbin/sysctl kern.vm_guest | grep xen";
+    FreeBSD_Xen_Present_Command : constant String := "/sbin/sysctl kern.vm_guest | grep xen > /dev/null";
 
     -- SMBIOS vendor strings
     VMWare_DMI_Pattern : constant String := "VMware, Inc.";
