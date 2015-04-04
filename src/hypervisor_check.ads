@@ -4,6 +4,8 @@ with Ada.Strings.Unbounded;
 with Ada.Text_IO;
 with Ada.Text_IO.Unbounded_IO;
 
+with Config;
+
 package Hypervisor_Check is
 
     package IO renames Ada.Text_IO;

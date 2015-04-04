@@ -7,6 +7,7 @@ with GNAT.Strings;
 
 with Hypervisor_Check; use Hypervisor_Check;
 with HVInfo_Util; use HVInfo_Util;
+with Config;
 
 procedure HVInfo is
     package US renames Ada.Strings.Unbounded;

@@ -99,10 +99,13 @@ package body Hypervisor_Check is
     function Get_DMI_Vendor_String return US.Unbounded_String is
         Name : US.Unbounded_String;
     begin
-        -- Linux
-        Name := Head_Of_File (Linux_Sys_Vendor_File);
-        return Name;
+        if Config.Linux then
+            Name := Head_Of_File (Linux_Sys_Vendor_File);
+        else
+            Name := US.To_Unbounded_String("");
+        end if;
 
+        return Name;
     end Get_DMI_Vendor_String;
 
     function Get_DMI_Vendor_Name return US.Unbounded_String is
