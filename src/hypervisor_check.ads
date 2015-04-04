@@ -18,6 +18,8 @@ package Hypervisor_Check is
 
     function Hypervisor_Present return Boolean;
 
+    function DMI_Available return Boolean;
+
     function Get_DMI_Vendor_Name return US.Unbounded_String;
 
 private

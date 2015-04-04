@@ -96,6 +96,19 @@ package body Hypervisor_Check is
         return Vendor_Name;
     end Get_Vendor_Name;
 
+    function DMI_Available return Boolean is
+    begin
+        if Config.Linux then
+            if Directories.Exists("/sys/class/dmi") then
+                return True;
+            else
+                return False;
+            end if;
+        else
+            raise OS_Not_Supported;
+        end if;
+    end DMI_Available;
+
     function Get_DMI_Vendor_String return US.Unbounded_String is
         Name : US.Unbounded_String;
     begin
