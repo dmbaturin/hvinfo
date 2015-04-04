@@ -50,6 +50,21 @@ package body Hypervisor_Check is
     exception
         when others => return US.To_Unbounded_String ("");
     end Head_Of_File;
+
+    -- Xen support hardware and paravirtual modes, in paravirtual mode
+    -- it's not detectable with CPUID
+    function Xen_Present return Boolean is
+    begin
+        if Config.Linux then
+            if Contains(Head_Of_File(Linux_Sys_HV_Type_File), "xen") then
+                return True;
+            else
+                return False;
+            end if;
+        else
+            raise OS_Not_Supported;
+        end if;
+    end Xen_Present;
  
     -- Hypervisors should set the bit 31 of %ecx to 1 in CPUID leaf 1
     function Hypervisor_Present return Boolean is
@@ -138,5 +153,15 @@ package body Hypervisor_Check is
         end if;
         return Vendor_Name;
     end Get_DMI_Vendor_Name;
+
+    function Known_DMI_HV_Vendor (Name : US.Unbounded_String) return Boolean is
+        use US;
+    begin
+        if Name /= US.To_Unbounded_String("") then
+            return True;
+        else
+            return False;
+        end if;
+    end Known_DMI_HV_Vendor;
 
 end Hypervisor_Check;

@@ -19,31 +19,37 @@ package Hypervisor_Check is
 
     function Hypervisor_Present return Boolean;
 
+    function Xen_Present return Boolean;
+
     function DMI_Available return Boolean;
 
     function Get_DMI_Vendor_Name return US.Unbounded_String;
+
+    function Known_DMI_HV_Vendor (Name : US.Unbounded_String) return Boolean;
+
+    -- Vendor names for human consumption
+    VMWare : constant String := "VMWare";
+    Xen_HVM : constant String := "Xen HVM";
+    Xen_PV : constant String := "Xen PV";
+    KVM : constant String := "KVM";
+    HyperV : constant String := "Microsoft Hyper-V";
+    VirtualBox : constant String := "VirtualBox";
+    Parallels : constant String := "Parallels";
 
 private
 
     Hypervisor_Leaf : constant := 16#40000000#;
     type CPUID_Registers is array (1 .. 4) of Unsigned_32;
 
+    -- Linux-specific file names etc.
     Linux_Sys_Vendor_File : constant String := "/sys/class/dmi/id/sys_vendor";
+    Linux_Sys_HV_Type_File : constant String := "/sys/hypervisor/type";
 
     -- SMBIOS vendor strings
     VMWare_DMI_Pattern : constant String := "VMware, Inc.";
     HyperV_DMI_Pattern : constant String := "Microsoft Corporation";
     VirtualBox_DMI_Pattern : constant String := "innotek GmbH";
     Parallels_DMI_Pattern : constant String := "Parallels";
-
-    -- Vendor names for human consumption
-    VMWare : constant String := "VMWare";
-    Xen : constant String := "Xen";
-    KVM : constant String := "KVM";
-    HyperV : constant String := "Microsoft Hyper-V";
-    VirtualBox : constant String := "VirtualBox";
-    Parallels : constant String := "Parallels";
-
 
     function CPUID (Arg : Unsigned_32) return CPUID_Registers;
 

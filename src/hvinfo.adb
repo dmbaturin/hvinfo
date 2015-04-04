@@ -42,28 +42,40 @@ begin
              return;
      end;
 
-    CPUID_HV_Name := US.To_Unbounded_String ("");
-    SMBIOS_HV_Name := US.To_Unbounded_String ("");
+    -- Assume success until proven otherwise
+    CL.Set_Exit_Status (0);
 
-    if Hypervisor_Present then
-        CPUID_HV_Name := Get_Vendor_Name;
-    end if;
 
-    SMBIOS_HV_Name := Get_DMI_Vendor_Name;
-
-    declare
-        use US;
-    begin
-        if (CPUID_HV_Name = "") and (SMBIOS_HV_Name = "") then
-            CL.Set_Exit_Status (1);
-        elsif (CPUID_HV_Name /= "") then
-            CL.Set_Exit_Status (0);
-            UIO.Put_Line (CPUID_HV_Name);
+    -- Check for Xen first, as it has two distinct modes
+    if Xen_Present then
+        if Hypervisor_Present then
+            -- This is Xen HVM
+            IO.Put_Line(Xen_HVM);
         else
-            CL.Set_Exit_Status (0);
-            UIO.Put_Line (SMBIOS_HV_Name); 
+            -- Xen present and no CPUID leaf means Xen PV
+            IO.Put_Line(Xen_PV);
         end if;
-    end;
+    elsif Hypervisor_Present then
+        -- This covers KVM, VMware, and other hypervisors
+        -- that use CPUID leaf as primary identification method
+        UIO.Put_Line (CPUID_HV_Name);
+    else
+        -- VirtualBox, Parallels, and possible others only
+        -- mark their presence by setting SMBIOS vendor string
+        if DMI_Available then
+            -- If the vendor name matches a known name associated
+            -- with a hypervisor, print it.
+            -- Sadly, this will give a wrong result on systems without
+            -- DMI reading API accessible to unprivileged users
+            SMBIOS_HV_Name := Get_DMI_Vendor_Name;
+            if Known_DMI_HV_Vendor(SMBIOS_HV_Name) then
+                UIO.Put_Line (SMBIOS_HV_Name);
+            else
+                IO.Put_Line(IO.Standard_Error, "No hypervisor detected");
+                CL.Set_Exit_Status (1);
+            end if;
+        end if;
+    end if;
 
 end HVInfo;
 
