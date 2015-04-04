@@ -10,6 +10,9 @@ Alternatively, you can use gnatmake directly, from the top level dir do
 gnatmake ./src/hvinfo
 ```
 
+There is no proper build system yet, so if you are building on FreeBSD,
+edit src/config.ads and change Linux to False and FreeBSD to true.
+
 # OS and hypervisor support
 
 CPUID-based checks that can detext KVM, Xen HVM, VMware, and Hyper-V are
