@@ -15,7 +15,7 @@ procedure HVInfo is
     package IO renames Ada.Text_IO;
     package GCL renames GNAT.Command_Line;
 
-    CPUID_HV_Name, SMBIOS_HV_Name, Hypervisor_Name : US.Unbounded_String;
+    SMBIOS_HV_Name : US.Unbounded_String;
 begin
     -- Handle command line options
     declare
@@ -45,7 +45,6 @@ begin
     -- Assume success until proven otherwise
     CL.Set_Exit_Status (0);
 
-
     -- Check for Xen first, as it has two distinct modes
     if Xen_Present then
         if Hypervisor_Present then
@@ -58,7 +57,7 @@ begin
     elsif Hypervisor_Present then
         -- This covers KVM, VMware, and other hypervisors
         -- that use CPUID leaf as primary identification method
-        UIO.Put_Line (CPUID_HV_Name);
+        UIO.Put_Line (Get_Vendor_Name);
     else
         -- VirtualBox, Parallels, and possible others only
         -- mark their presence by setting SMBIOS vendor string
