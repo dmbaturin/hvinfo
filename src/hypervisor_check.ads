@@ -38,6 +38,7 @@ package Hypervisor_Check is
     HyperV : constant String := "Microsoft Hyper-V";
     VirtualBox : constant String := "VirtualBox";
     Parallels : constant String := "Parallels";
+    bhyve : constant String := "bhyve";
 
 private
 

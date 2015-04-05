@@ -124,6 +124,8 @@ package body Hypervisor_Check is
             Vendor_Name := To_Unbounded_String ("VMWare");
         elsif Vendor_String = "Microsoft Hv" then
             Vendor_Name := To_Unbounded_String ("Microsoft Hyper-V");
+        elsif Vendor_String = "bhyve bhyve" then
+            Vendor_Name := To_Unbounded_String (bhyve);
         else
             Vendor_Name := To_Unbounded_String  ("Unknown hypervisor");
         end if;
