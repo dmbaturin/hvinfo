@@ -17,7 +17,7 @@ all: src/config.ads hvinfo
 src/config.ads: VERSION mkconfig.sh src/config.ads.in
 	GNATPREP=$(GNATPREP) ./mkconfig.sh
 
-.PHONY: src/hvinfo
+.PHONY: hvinfo
 hvinfo:
 	mkdir -p $(BUILD_DIR)
 	$(GPRBUILD) -Phvinfo
