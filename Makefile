@@ -10,10 +10,13 @@ GNATPREP = gnatprep
 
 INSTALL = install
 
-all: src/hvinfo
+all: src/config.ads src/hvinfo
 
+src/config.ads: VERSION mkconfig.sh src/config.ads.in
+	GNATPREP=$(GNATPREP) ./mkconfig.sh
+
+.PHONY: src/hvinfo
 src/hvinfo:
-	./mkconfig.sh
 	$(GPRBUILD) -Phvinfo
 
 clean:

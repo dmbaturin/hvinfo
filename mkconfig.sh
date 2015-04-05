@@ -18,7 +18,7 @@ case $OS in
         exit 1
 esac
 
-gnatprep -D LINUX=$HVINFO_LINUX \
+$GNATPREP -D LINUX=$HVINFO_LINUX \
          -D FREEBSD=$HVINFO_FREEBSD \
          -D VERSION=\"$VERSION\" \
          src/config.ads.in src/config.ads
