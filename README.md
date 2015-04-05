@@ -11,8 +11,8 @@ make
 make install PREFIX=<some dir>
 ```
 
-There is no proper build system yet, so if you are building on FreeBSD,
-edit src/config.ads and change Linux to False and FreeBSD to true.
+If you have your Ada toolchain installed in an unusual location, it's better to ensure you have it
+in your $PATH.
 
 # OS and hypervisor support
 
