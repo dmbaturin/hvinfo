@@ -3,3 +3,6 @@
 
 # Ada Library Information
 *.ali
+
+# Generated files
+src/config.ads

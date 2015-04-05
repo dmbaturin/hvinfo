@@ -1,14 +1,24 @@
 PREFIX = /usr
-BINDIR = bin/
+BINDIR = bin
 
-all: hvinfo
+TARGET_DIR = $(PREFIX)/$(BINDIR)
 
-hvinfo:
-	gnatmake src/hvinfo.adb
+GPRBUILD = gprbuild
+GPRCLEAN = gprclean
+GPRINSTALL = gprinstall
+GNATPREP = gnatprep
+
+INSTALL = install
+
+all: src/hvinfo
+
+src/hvinfo:
+	./mkconfig.sh
+	$(GPRBUILD) -Phvinfo
 
 clean:
-	gnatclean hvinfo hypervisor_check
+	$(GPRCLEAN)
 
 install:
-	mkdir -p $(PREFIX)/$(BINDIR)
-	cp hvinfo $(PREFIX)/$(BINDIR)
+	$(INSTALL) -d $(TARGET_DIR)
+	$(INSTALL) src/hvinfo $(TARGET_DIR)

@@ -11,7 +11,7 @@ package body HVInfo_Util is
 
     procedure Print_Version is
     begin
-        IO.Put_Line ("hvinfo 0.1");
+        IO.Put_Line ("hvinfo " & Config.Version);
         IO.Put_Line ("Copyright 2015 Daniil Baturin <daniil@baturin.org>");
         IO.Put_Line ("");
         IO.Put_Line ("This program is free software, distributed under the terms");

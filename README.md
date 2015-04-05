@@ -2,12 +2,13 @@
 Yet another hypervisor detection tool, this time in a high level language and
 doesn't want root privileges.
 
-To build it, you need GNAT 4.x or higher (Ada 2005 support required).
-Just use "make" in the top level dir.
-Alternatively, you can use gnatmake directly, from the top level dir do
+To build it, you need GNAT 4.x or higher (Ada 2005 support required) and gprbuild.
 
+Build setup is rather simplistic at this time.
 ```
-gnatmake ./src/hvinfo
+cd hvinfo
+make
+make install PREFIX=<some dir>
 ```
 
 There is no proper build system yet, so if you are building on FreeBSD,

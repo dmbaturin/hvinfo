@@ -1,0 +1,8 @@
+package Config is
+
+    Linux : constant Boolean := $LINUX;
+    FreeBSD : constant Boolean := $FREEBSD;
+
+    Version : constant String := $VERSION;
+
+end Config;
