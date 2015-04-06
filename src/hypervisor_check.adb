@@ -191,4 +191,22 @@ package body Hypervisor_Check is
         end if;
     end Known_DMI_HV_Vendor;
 
+    function VirtualBox_PCI_Present return Boolean is
+    begin
+        if Config.FreeBSD then
+            if Command_Succeeds ("/sbin/sysctl dev.vgapci | grep vendor=0x80ee") then
+                return True;
+            else
+                return False;
+            end if;
+        elsif Config.Linux then
+            -- Can be done, but on Linux VirtualBox is covered by DMI checks,
+            -- so I cut the corners here
+            -- XXX: maybe it's relevant on some UEFI machines
+            return False;
+        else
+            return False;
+        end if;
+    end;
+
 end Hypervisor_Check;

@@ -30,6 +30,8 @@ package Hypervisor_Check is
 
     function Command_Succeeds (Command : Interfaces.C.Char_Array) return Boolean;
 
+    function VirtualBox_PCI_Present return Boolean;
+
     -- Vendor names for human consumption
     VMWare : constant String := "VMWare";
     Xen_HVM : constant String := "Xen HVM";

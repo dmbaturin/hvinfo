@@ -73,6 +73,8 @@ begin
                 IO.Put_Line(IO.Standard_Error, "No hypervisor detected");
                 CL.Set_Exit_Status (1);
             end if;
+        elsif VirtualBox_PCI_Present then
+            IO.Put_Line (VirtualBox);
         end if;
     end if;
 
