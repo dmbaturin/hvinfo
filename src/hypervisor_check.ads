@@ -52,7 +52,7 @@ package Hypervisor_Check is
     function VirtualBox_PCI_Present return Boolean;
 
     -- Vendor names for human consumption
-    VMWare : constant String := "VMWare";
+    VMware : constant String := "VMware";
     Xen_HVM : constant String := "Xen HVM";
     Xen_PV : constant String := "Xen PV";
     KVM : constant String := "KVM";

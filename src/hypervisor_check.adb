@@ -136,13 +136,13 @@ package body Hypervisor_Check is
     begin
 	Vendor_String := Get_Vendor_String;
         if Vendor_String = "KVMKVMKVM" then
-            Vendor_Name := To_Unbounded_String ("KVM");
+            Vendor_Name := To_Unbounded_String (KVM);
         elsif Vendor_String = "XenVMMXenVMM" then
-            Vendor_Name := To_Unbounded_String ("Xen");
+            Vendor_Name := To_Unbounded_String (Xen_HVM);
         elsif Vendor_String = "VMwareVMware" then
-            Vendor_Name := To_Unbounded_String ("VMWare");
+            Vendor_Name := To_Unbounded_String (VMware);
         elsif Vendor_String = "Microsoft Hv" then
-            Vendor_Name := To_Unbounded_String ("Microsoft Hyper-V");
+            Vendor_Name := To_Unbounded_String (HyperV);
         elsif Vendor_String = "bhyve bhyve " then
             Vendor_Name := To_Unbounded_String (bhyve);
         else
