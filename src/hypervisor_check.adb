@@ -213,7 +213,7 @@ package body Hypervisor_Check is
     function VirtualBox_PCI_Present return Boolean is
     begin
         if Config.FreeBSD then
-            if Command_Succeeds ("/sbin/sysctl dev.vgapci | grep vendor=0x80ee") then
+            if Command_Succeeds ("/sbin/sysctl dev.vgapci | grep vendor=0x80ee > /dev/null") then
                 return True;
             else
                 return False;
