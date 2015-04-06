@@ -1,3 +1,22 @@
+------------------------------------------------------------------------
+-- Copyright (C) 2015 Daniil Baturin <daniil@baturin.org>
+--
+-- This file is part of hvinfo.
+--
+-- hvinfo is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU General Public License as published by
+-- the Free Software Foundation, either version 2 of the License, or
+-- (at your option) any later version.
+--
+-- hvinfo is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU General Public License for more details.
+--
+-- You should have received a copy of the GNU General Public License
+-- along with hvinfo.  If not, see <http://www.gnu.org/licenses/>.
+------------------------------------------------------------------------
+
 package body Hypervisor_Check is
 
     function CPUID (Arg : Unsigned_32) return CPUID_Registers is
@@ -43,7 +62,7 @@ package body Hypervisor_Check is
         File : IO.File_Type;
         Result : US.Unbounded_String;
     begin
-        IO.Open(File => File, Name => Path, Mode => IO.In_File);
+        IO.Open (File => File, Name => Path, Mode => IO.In_File);
         UIO.Get_Line (File, Result);
         IO.Close(File);
         return Result;
@@ -56,13 +75,13 @@ package body Hypervisor_Check is
     function Xen_Present return Boolean is
     begin
         if Config.Linux then
-            if Contains(Head_Of_File(Linux_Sys_HV_Type_File), "xen") then
+            if Contains (Head_Of_File (Linux_Sys_HV_Type_File), "xen") then
                 return True;
             else
                 return False;
             end if;
         elsif Config.FreeBSD then
-            return Command_Succeeds(Interfaces.C.To_C(FreeBSD_Xen_Present_Command));
+            return Command_Succeeds (Interfaces.C.To_C (FreeBSD_Xen_Present_Command));
         else
             raise OS_Not_Supported;
         end if;
@@ -85,11 +104,11 @@ package body Hypervisor_Check is
     function Command_Succeeds (Command : Interfaces.C.Char_Array) return Boolean is
         use Interfaces.C;
         function Sys (Arg : Char_Array) return Integer;
-        pragma Import(C, Sys, "system");
+        pragma Import (C, Sys, "system");
 
         Ret_Val : Integer;
     begin
-        Ret_Val := Sys(Command);
+        Ret_Val := Sys (Command);
         if Ret_Val > 0 then
             return False;
         else
@@ -140,7 +159,7 @@ package body Hypervisor_Check is
         if Config.Linux then
             -- Linux provides DMI info via sysfs, but on systems
             -- without SMBIOS it's not available
-            if Ada.Directories.Exists("/sys/class/dmi") then
+            if Ada.Directories.Exists ("/sys/class/dmi") then
                 return True;
             else
                 return False;
@@ -167,13 +186,13 @@ package body Hypervisor_Check is
         Vendor_String, Vendor_Name : US.Unbounded_String;
     begin
         Vendor_String := Get_DMI_Vendor_String;
-        if Contains(Vendor_String, VMWare_DMI_Pattern) then
+        if Contains (Vendor_String, VMWare_DMI_Pattern) then
             Vendor_Name := US.To_Unbounded_String (VMWare);
-        elsif Contains(Vendor_String, HyperV_DMI_Pattern) then
+        elsif Contains (Vendor_String, HyperV_DMI_Pattern) then
             Vendor_Name := US.To_Unbounded_String (HyperV);
-        elsif Contains(Vendor_String, VirtualBox_DMI_Pattern) then
+        elsif Contains (Vendor_String, VirtualBox_DMI_Pattern) then
             Vendor_Name := US.To_Unbounded_String (VirtualBox);
-        elsif Contains(Vendor_String, Parallels_DMI_Pattern) then
+        elsif Contains (Vendor_String, Parallels_DMI_Pattern) then
             Vendor_Name := US.To_Unbounded_String (Parallels);
         else
             Vendor_Name := US.To_Unbounded_String ("");
@@ -184,7 +203,7 @@ package body Hypervisor_Check is
     function Known_DMI_HV_Vendor (Name : US.Unbounded_String) return Boolean is
         use US;
     begin
-        if Name /= US.To_Unbounded_String("") then
+        if Name /= US.To_Unbounded_String ("") then
             return True;
         else
             return False;
