@@ -18,9 +18,9 @@
 PREFIX = /usr
 BINDIR = bin
 
-TARGET_DIR = $(PREFIX)/$(BINDIR)
-
 BUILD_DIR = build
+
+DESTDIR = ""
 
 GPRBUILD = gprbuild
 GPRCLEAN = gprclean
@@ -44,5 +44,5 @@ clean:
 	rm -rf $(BUILD_DIR)
 
 install:
-	$(INSTALL) -d $(TARGET_DIR)
-	$(INSTALL) $(BUILD_DIR)/hvinfo $(TARGET_DIR)
+	$(INSTALL) -d $(DESTDIR)/$(PREFIX)/$(BINDIR)
+	$(INSTALL) $(BUILD_DIR)/hvinfo $(DESTDIR)/$(PREFIX)/$(BINDIR)
