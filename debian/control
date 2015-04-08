@@ -6,7 +6,7 @@ Standards-Version: 3.9.1
 Build-Depends: debhelper (>= 7), gnat (>=4.0), gprbuild
 
 Package: hvinfo
-Depends: libgnat (>= 4.0)
+Depends: libgnat-4.4 | libgnat-4.6 | libgnat-4.9
 Architecture: i386 amd64
 Description: x86 hypervisor detection tool
  An x86 hypervisor detection with support for detecting
