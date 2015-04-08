@@ -40,8 +40,10 @@ hvinfo:
 	$(GPRBUILD) -Phvinfo
 
 clean:
-	$(GPRCLEAN)
-	rm -rf $(BUILD_DIR)
+	if test -d $(BUILD_DIR); then \
+	  $(GPRCLEAN); \
+	  rm -rf $(BUILD_DIR);\
+	fi
 
 install:
 	$(INSTALL) -d $(DESTDIR)/$(PREFIX)/$(BINDIR)
