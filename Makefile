@@ -29,6 +29,13 @@ GNATPREP = gnatprep
 
 INSTALL = install
 
+BUILD_TARGET =
+BUILD_FLAGS =
+
+ifdef BUILD_TARGET
+BUILD_FLAGS = --target=$(BUILD_TARGET)
+endif
+
 all: src/config.ads hvinfo
 
 src/config.ads: VERSION mkconfig.sh src/config.ads.in
@@ -37,7 +44,7 @@ src/config.ads: VERSION mkconfig.sh src/config.ads.in
 .PHONY: hvinfo
 hvinfo:
 	mkdir -p $(BUILD_DIR)
-	$(GPRBUILD) -Phvinfo
+	$(GPRBUILD) -Phvinfo $(BUILD_FLAGS)
 
 clean:
 	if test -d $(BUILD_DIR); then \
