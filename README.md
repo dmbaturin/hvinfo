@@ -2,6 +2,8 @@
 Yet another hypervisor detection tool, this time in a high level language and
 doesn't want root privileges.
 
+## Building
+
 To build it, you need GNAT 4.x or higher (Ada 2005 support required) and gprbuild.
 
 Build setup is rather simplistic at this time.
@@ -9,6 +11,15 @@ Build setup is rather simplistic at this time.
 cd hvinfo
 make
 make install PREFIX=<some dir>
+```
+
+### Building a Debian package
+
+Debian packaging is not yet good enough to get it included in Debian, but should
+be fine for local use. Install the devscripts package and do:
+
+```
+debuild -us -uc
 ```
 
 If you have your Ada toolchain installed in an unusual location, it's better to ensure you have it

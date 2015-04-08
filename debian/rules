@@ -1,0 +1,15 @@
+#!/usr/bin/make -f
+
+DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	# No configure script there
+
+override_dh_auto_build:
+	make BUILD_TARGET=$(DEB_BUILD_GNU_TYPE)
+
+override_dh_auto_clean:
+	make clean

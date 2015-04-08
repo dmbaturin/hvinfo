@@ -1,0 +1,6 @@
+The Debian Package hvinfo
+-------------------------------
+
+hvinfo is a hypervisor detection tool for x86 machines.
+
+ -- Daniil Baturin <daniil@baturin.org>  Tue, 07 Apr 2015 19:00:40 +0200

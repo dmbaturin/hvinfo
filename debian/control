@@ -1,0 +1,13 @@
+Source: hvinfo
+Section: contrib/utilities
+Priority: extra
+Maintainer: Daniil Baturin <daniil@baturin.org>
+Standards-Version: 3.9.1
+Build-Depends: debhelper (>= 7), gnat (>=4.0), gprbuild
+
+Package: hvinfo
+Depends: libgnat (>= 4.0)
+Architecture: i386 amd64
+Description: x86 hypervisor detection tool
+ An x86 hypervisor detection with support for detecting
+ KVM, Xen PV or HVM, VMware, and others.
