@@ -4,13 +4,13 @@ doesn't want root privileges.
 
 ## Building
 
-To build it, you need GNAT 4.x or higher (Ada 2005 support required) and gprbuild.
+To build it, you need GNU Make, GNAT 4.x or higher (Ada 2005 support required) and gprbuild.
 
 Build setup is rather simplistic at this time.
 ```
 cd hvinfo
-make
-make install PREFIX=<some dir>
+gmake
+gmake install PREFIX=<some dir>
 ```
 
 ### Building a Debian package
@@ -42,3 +42,7 @@ Container systems such as LXC and OpenVZ are not supported yet.
 Virtualization systems for platforms other than x86 aren't supported either.
 
 Patches are welcome.
+
+# TODO
+* Implementation-independent makefile (anyone knows how to make ifdef work in both make flavours?)
+* Containers virtualization detection.
