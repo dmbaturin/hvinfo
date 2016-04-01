@@ -40,9 +40,14 @@ esac
 # Determine the arch
 rm -f $CONFIG
 ARCH=$(uname -m)
-if [ $(expr $ARCH : 'i*86') -o $(expr $ARCH : 'amd64') -o $(expr $ARCH : 'x86_64') ]; then
+case $ARCH in
+  x86_64|amd64|i*86)
     echo "X86 := True" >> $CONFIG
-fi
+    ;;
+  *)
+    echo "WARNING: Unknown architecture!"
+    ;;
+esac
 
 $GNATPREP -D LINUX=$HVINFO_LINUX \
          -D FREEBSD=$HVINFO_FREEBSD \
