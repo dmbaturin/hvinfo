@@ -6,6 +6,7 @@
 
 # Generated files
 src/config.ads
+config.def
 
 # Build dir
 build/*

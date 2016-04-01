@@ -38,7 +38,10 @@ ifdef BUILD_TARGET
 BUILD_FLAGS = --target=$(BUILD_TARGET)
 endif
 
-all: src/config.ads hvinfo
+all: config.def src/config.ads hvinfo
+
+config.def:
+	./mkdefs.sh
 
 src/config.ads: VERSION mkconfig.sh src/config.ads.in
 	GNATPREP=$(GNATPREP) ./mkconfig.sh
@@ -54,6 +57,7 @@ clean:
 	  rm -rf $(BUILD_DIR);\
 	fi
 	rm -f $(CONFIG)
+	rm -f src/config.ads
 
 install:
 	$(INSTALL) -d $(DESTDIR)/$(PREFIX)/$(BINDIR)

@@ -16,27 +16,14 @@
 # You should have received a copy of the GNU General Public License
 # along with hvinfo.  If not, see <http://www.gnu.org/licenses/>.
 
-HVINFO_LINUX=False
-HVINFO_FREEBSD=False
-
-VERSION=$(cat VERSION)
-
 CONFIG=config.def
 
-OS=$(uname)
-case $OS in
-    Linux)
-        HVINFO_LINUX=True
-        ;;
-    FreeBSD)
-        HVINFO_FREEBSD=True
-        ;;
-    *)
-        echo "Operating system $OS is not supported"
-        exit 1
-esac
+# Create the gnatprep defs file
+# Determine the arch
+ARCH=$(uname -m)
+X86=False
+if [ ! $(expr $ARCH : 'i[356]86') -o $ARCH = 'amd64' -o $ARCH = 'x86_64' ]; then
+    X86=True
+fi
 
-$GNATPREP -D LINUX=$HVINFO_LINUX \
-         -D FREEBSD=$HVINFO_FREEBSD \
-         -D VERSION=\"$VERSION\" \
-         src/config.ads.in src/config.ads
+echo "X86 := $X86" > $CONFIG
