@@ -21,6 +21,8 @@ HVINFO_FREEBSD=False
 
 VERSION=$(cat VERSION)
 
+CONFIG=config.def
+
 OS=$(uname)
 case $OS in
     Linux)
@@ -33,6 +35,14 @@ case $OS in
         echo "Operating system $OS is not supported"
         exit 1
 esac
+
+# Create the gnatprep defs file
+# Determine the arch
+rm -f $CONFIG
+ARCH=$(uname -m)
+if [ $(expr $ARCH : 'i*86') -o $(expr $ARCH : 'amd64') -o $(expr $ARCH : 'x86_64') ]; then
+    echo "X86 := True" >> $CONFIG
+fi
 
 $GNATPREP -D LINUX=$HVINFO_LINUX \
          -D FREEBSD=$HVINFO_FREEBSD \

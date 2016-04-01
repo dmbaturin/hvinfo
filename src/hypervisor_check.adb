@@ -22,6 +22,7 @@ package body Hypervisor_Check is
     function CPUID (Arg : Unsigned_32) return CPUID_Registers is
         eax, ebx, ecx, edx : Unsigned_32;
     begin
+        #if X86 then
 	Asm("cpuid",
             Outputs => (Unsigned_32'Asm_Output ("=a", eax),
                         Unsigned_32'Asm_Output ("=b", ebx),
@@ -29,6 +30,9 @@ package body Hypervisor_Check is
                         Unsigned_32'Asm_Output ("=d", edx)),
             Inputs  => Unsigned_32'Asm_Input ("a", Arg));
         return (eax, ebx, ecx, edx);
+        #else
+        return (0, 0, 0, 0);
+        #end if;
     end CPUID;
 
     -- Convert an unsigned 32-bit integer to a string of 4 characters

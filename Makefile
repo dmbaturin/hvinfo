@@ -20,6 +20,8 @@ BINDIR = bin
 
 BUILD_DIR = build
 
+CONFIG = config.def
+
 DESTDIR = ""
 
 GPRBUILD = gprbuild
@@ -51,6 +53,7 @@ clean:
 	  $(GPRCLEAN); \
 	  rm -rf $(BUILD_DIR);\
 	fi
+	rm -f $(CONFIG)
 
 install:
 	$(INSTALL) -d $(DESTDIR)/$(PREFIX)/$(BINDIR)

@@ -5,5 +5,10 @@ project hvinfo is
    for Object_Dir use  "build";
    for Main use ("hvinfo.adb");
 
+   package Compiler is
+      for Switches ("Ada") use
+        ("-gnatep=" & hvinfo'Project_Dir & "hvinfo.def", "-I" & hvinfo'Project_Dir);
+   end Compiler;
+
 end hvinfo;
 
