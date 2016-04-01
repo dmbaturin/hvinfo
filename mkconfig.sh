@@ -38,7 +38,6 @@ esac
 
 # Create the gnatprep defs file
 # Determine the arch
-rm -f $CONFIG
 ARCH=$(uname -m)
 case $ARCH in
   x86_64|amd64|i*86)
@@ -46,6 +45,7 @@ case $ARCH in
     ;;
   *)
     echo "WARNING: Unknown architecture!"
+    touch $CONFIG
     ;;
 esac
 
