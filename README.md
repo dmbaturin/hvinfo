@@ -1,6 +1,11 @@
 # hvinfo
-Yet another hypervisor detection tool, this time in a high level language and
-doesn't want root privileges.
+Yet another hypervisor detection tool for UNIX-like systems.
+
+### Design goals
+
+* Single high level language (Ada 2005). Even if certain things require more code.
+* No root privileges required, ever. Even if it means running checks in inconvenient ways.
+* Support for at least the most popular UNIX-like systems, not just Linux.
 
 ## Building
 
@@ -27,15 +32,16 @@ in your $PATH.
 
 # OS and hypervisor support
 
-CPUID-based checks that can detext KVM, Xen HVM, VMware, and Hyper-V are
+CPUID-based checks that can detect KVM, Xen HVM, VMware, and Hyper-V are
 supported on any OS.
 
 Xen PV vs. Xen HVM check is supported on Linux and FreeBSD.
 
 The easiest way to detect VirtualBox, Parallels, and some other hypervisors
-that don't use CPUID identification is to check SMBIOS vendor name,
+that don't use CPUID identification is to check the SMBIOS vendor name,
 and this is currently only supported on Linux because it provides DMI information
-via sysfs.
+via sysfs to unprivileged users. FreeBSD requires root privileges for DMI reading,
+so Parallels is undetectable on FreeBSD right now.
 
 Container systems such as LXC and OpenVZ are not supported yet.
 
