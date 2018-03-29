@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------
--- Copyright (C) 2015 Daniil Baturin <daniil@baturin.org>
+-- Copyright (C) 2018 Daniil Baturin <daniil@baturin.org>
 --
 -- This file is part of hvinfo.
 --
@@ -34,14 +34,18 @@ procedure HVInfo is
     package IO renames Ada.Text_IO;
     package GCL renames GNAT.Command_Line;
 
-    SMBIOS_HV_Name : US.Unbounded_String;
+    SMBIOS_Vendor : US.Unbounded_String;
+
+    Debug : Boolean;
+    Hypervisor_Detected : Boolean := False;
+    Hypervisor_Name : US.Unbounded_String := US.Null_Unbounded_String;
 begin
     -- Handle command line options
     declare
         -- No declarations
     begin
         loop
-            case GCL.Getopt ("-help -version") is
+            case GCL.Getopt ("-help -version -debug") is
                 when '-' =>
                     if GCL.Full_Switch = "-version" then
                         Print_Version;
@@ -49,6 +53,8 @@ begin
                     elsif GCL.Full_Switch = "-help" then
                         Print_Help;
                         return;
+                    elsif GCL.Full_Switch = "-debug" then
+                        Debug := True;
                     end if;
                 when others =>
                     exit;
@@ -61,40 +67,73 @@ begin
              return;
      end;
 
-    -- Assume success until proven otherwise
-    CL.Set_Exit_Status (0);
-
     -- Check for Xen first, as it has two distinct modes
     if Xen_Present then
+        Hypervisor_Detected := True;
+
         if Hypervisor_Present then
             -- This is Xen HVM
-            IO.Put_Line (Xen_HVM);
+            Hypervisor_Name := US.To_Unbounded_String (Xen_HVM);
         else
             -- Xen present and no CPUID leaf means Xen PV
-            IO.Put_Line (Xen_PV);
+            Hypervisor_Name := US.To_Unbounded_String (Xen_PV);
         end if;
     elsif Hypervisor_Present then
         -- This covers KVM, VMware, and other hypervisors
-        -- that use CPUID leaf as primary identification method
-        UIO.Put_Line (Get_Vendor_Name);
-    else
+        -- that use CPUID leaf as their primary identification method
+
+        Hypervisor_Detected := True;
+
+        declare
+            use US;
+        begin
+            if Debug then
+                IO.Put_Line ("CPUID hypervisor bit is set");
+                UIO.Put_Line ("Hypervisor identifier is """ & Get_Vendor_String & """");
+            end if;
+        end;
+
+        Hypervisor_Name := Get_Vendor_Name;
+    elsif DMI_Available then
         -- VirtualBox, Parallels, and possible others only
         -- mark their presence by setting SMBIOS vendor string
-        if DMI_Available then
-            -- If the vendor name matches a known name associated
-            -- with a hypervisor, print it.
-            -- Sadly, this will give a wrong result on systems without
-            -- DMI reading API accessible to unprivileged users
-            SMBIOS_HV_Name := Get_DMI_Vendor_Name;
-            if Known_DMI_HV_Vendor (SMBIOS_HV_Name) then
-                UIO.Put_Line (SMBIOS_HV_Name);
+
+        -- If the vendor name matches a known name associated
+        -- with a hypervisor, print it.
+        -- Sadly, this will give a wrong result on systems without
+        -- DMI reading API accessible to unprivileged users
+        
+
+        declare
+            use US;
+            SMBIOS_Vendor, SMBIOS_HV_Name : US.Unbounded_String;
+        begin
+            SMBIOS_Vendor := Get_DMI_Vendor_String;
+            SMBIOS_HV_Name := Get_DMI_Vendor_Name (SMBIOS_Vendor);
+
+            if SMBIOS_HV_Name /= Null_Unbounded_String then
+                Hypervisor_Name := SMBIOS_HV_Name;
+                Hypervisor_Detected := True;
             else
-                IO.Put_Line (IO.Standard_Error, "No hypervisor detected");
-                CL.Set_Exit_Status (1);
+                if Debug then
+                    UIO.Put_Line (IO.Standard_Error, "DMI vendor name is: """ & SMBIOS_Vendor & """");
+                end if;
             end if;
-        elsif VirtualBox_PCI_Present then
-            IO.Put_Line (VirtualBox);
+         end;
+    elsif VirtualBox_PCI_Present then
+        Hypervisor_Name := US.To_Unbounded_String (VirtualBox);
+    else
+        if Debug then
+            IO.Put_Line (IO.Standard_Error, "DMI reading API is not available to unpriviliged users on this OS");
         end if;
+    end if;
+
+    if Hypervisor_Detected then
+        CL.Set_Exit_Status (0);
+        UIO.Put_Line (Hypervisor_Name);
+    else
+        CL.Set_Exit_Status (1);
+        IO.Put_Line (IO.Standard_Error, "No hypervisor detected");
     end if;
 
 end HVInfo;

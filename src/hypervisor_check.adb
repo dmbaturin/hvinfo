@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------
--- Copyright (C) 2015 Daniil Baturin <daniil@baturin.org>
+-- Copyright (C) 2018 Daniil Baturin <daniil@baturin.org>
 --
 -- This file is part of hvinfo.
 --
@@ -186,10 +186,9 @@ package body Hypervisor_Check is
         return Name;
     end Get_DMI_Vendor_String;
 
-    function Get_DMI_Vendor_Name return US.Unbounded_String is
-        Vendor_String, Vendor_Name : US.Unbounded_String;
+    function Get_DMI_Vendor_Name (Vendor_String : US.Unbounded_String) return US.Unbounded_String is
+        Vendor_Name : US.Unbounded_String;
     begin
-        Vendor_String := Get_DMI_Vendor_String;
         if Contains (Vendor_String, VMWare_DMI_Pattern) then
             Vendor_Name := US.To_Unbounded_String (VMWare);
         elsif Contains (Vendor_String, HyperV_DMI_Pattern) then
@@ -199,20 +198,11 @@ package body Hypervisor_Check is
         elsif Contains (Vendor_String, Parallels_DMI_Pattern) then
             Vendor_Name := US.To_Unbounded_String (Parallels);
         else
-            Vendor_Name := US.To_Unbounded_String ("");
+            Vendor_Name := US.Null_Unbounded_String;
         end if;
+
         return Vendor_Name;
     end Get_DMI_Vendor_Name;
-
-    function Known_DMI_HV_Vendor (Name : US.Unbounded_String) return Boolean is
-        use US;
-    begin
-        if Name /= US.To_Unbounded_String ("") then
-            return True;
-        else
-            return False;
-        end if;
-    end Known_DMI_HV_Vendor;
 
     function VirtualBox_PCI_Present return Boolean is
     begin

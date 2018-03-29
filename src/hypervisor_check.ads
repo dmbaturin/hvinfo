@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------
--- Copyright (C) 2015 Daniil Baturin <daniil@baturin.org>
+-- Copyright (C) 2018 Daniil Baturin <daniil@baturin.org>
 --
 -- This file is part of hvinfo.
 --
@@ -37,15 +37,17 @@ package Hypervisor_Check is
 
     function Get_Vendor_Name return US.Unbounded_String;
 
+    function Get_Vendor_String return US.Unbounded_String;
+
     function Hypervisor_Present return Boolean;
 
     function Xen_Present return Boolean;
 
     function DMI_Available return Boolean;
 
-    function Get_DMI_Vendor_Name return US.Unbounded_String;
+    function Get_DMI_Vendor_Name (Vendor_String : US.Unbounded_String) return US.Unbounded_String;
 
-    function Known_DMI_HV_Vendor (Name : US.Unbounded_String) return Boolean;
+    function Get_DMI_Vendor_String return US.Unbounded_String;
 
     function Command_Succeeds (Command : Interfaces.C.Char_Array) return Boolean;
 
@@ -86,12 +88,8 @@ private
 
     function String_of_U32 (Arg : Unsigned_32) return US.Unbounded_String;
 
-    function Get_Vendor_String return US.Unbounded_String;
-
     function Head_Of_File (Path : String) return US.Unbounded_String;
 
     function Contains (Haystack : US.Unbounded_String; Needle : String) return Boolean;
-
-    function Get_DMI_Vendor_String return US.Unbounded_String;
 
 end Hypervisor_Check;
