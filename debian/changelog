@@ -1,3 +1,10 @@
+hvinfo (1.1.0) unstable; urgency=medium
+
+  * Add a debug option.
+  * Support for building on armhf.
+
+ -- Daniil Baturin <dmbaturin@baturin.org>  Thu, 03 May 2018 14:09:54 +0200
+
 hvinfo (1.0.0) unstable; urgency=low
 
   * Initial release.
