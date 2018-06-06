@@ -32,7 +32,7 @@ in your $PATH.
 
 # OS and hypervisor support
 
-CPUID-based checks that can detect KVM, Xen HVM, VMware, and Hyper-V are
+CPUID-based checks that can detect KVM, Xen HVM, VMware, bhyve, and Hyper-V are
 supported on any OS.
 
 Xen PV vs. Xen HVM check is supported on Linux and FreeBSD.
