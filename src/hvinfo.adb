@@ -91,9 +91,15 @@ begin
                 IO.Put_Line ("CPUID hypervisor bit is set");
                 UIO.Put_Line ("Hypervisor identifier is """ & Get_Vendor_String & """");
             end if;
-        end;
 
-        Hypervisor_Name := Get_Vendor_Name;
+            Hypervisor_Name := Get_Vendor_Name;
+
+            -- VirtualBox may use KVM or Hyper-V as its backend,
+            -- but still exposes its own graphics card so that setup can be detected
+            if VirtualBox_PCI_Present then
+                Hypervisor_Name := "VirtualBox (using " & Hypervisor_Name & ")";
+            end if
+        end;
     elsif DMI_Available then
         -- VirtualBox, Parallels, and possible others only
         -- mark their presence by setting SMBIOS vendor string
