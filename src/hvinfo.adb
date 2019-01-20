@@ -98,7 +98,7 @@ begin
             -- but still exposes its own graphics card so that setup can be detected
             if VirtualBox_PCI_Present then
                 Hypervisor_Name := "VirtualBox (using " & Hypervisor_Name & ")";
-            end if
+            end if;
         end;
     elsif DMI_Available then
         -- VirtualBox, Parallels, and possible others only
