@@ -85,7 +85,7 @@ package body Hypervisor_Check is
                 return False;
             end if;
         elsif Config.FreeBSD then
-            return Command_Succeeds (Interfaces.C.To_C (FreeBSD_Xen_Present_Command));
+            return Command_Succeeds (FreeBSD_Xen_Present_Command);
         else
             raise OS_Not_Supported;
         end if;
@@ -105,14 +105,14 @@ package body Hypervisor_Check is
 
     -- Execute a system command and return true if it succeeded
     -- (i.e. returned 0)
-    function Command_Succeeds (Command : Interfaces.C.Char_Array) return Boolean is
+    function Command_Succeeds (Command : String) return Boolean is
         use Interfaces.C;
         function Sys (Arg : Char_Array) return Integer;
         pragma Import (C, Sys, "system");
 
         Ret_Val : Integer;
     begin
-        Ret_Val := Sys (Command);
+        Ret_Val := Sys (Interfaces.C.To_C (Command));
         if Ret_Val > 0 then
             return False;
         else

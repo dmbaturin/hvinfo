@@ -49,7 +49,7 @@ package Hypervisor_Check is
 
     function Get_DMI_Vendor_String return US.Unbounded_String;
 
-    function Command_Succeeds (Command : Interfaces.C.Char_Array) return Boolean;
+    function Command_Succeeds (Command : String) return Boolean;
 
     function VirtualBox_PCI_Present return Boolean;
 
