@@ -197,6 +197,8 @@ package body Hypervisor_Check is
             Vendor_Name := US.To_Unbounded_String (VirtualBox);
         elsif Contains (Vendor_String, Parallels_DMI_Pattern) then
             Vendor_Name := US.To_Unbounded_String (Parallels);
+        elsif Contains (Vendor_String, QEMU_DMI_Pattern) then
+            Vendor_Name := US.To_Unbounded_String (QEMU);
         else
             Vendor_Name := US.Null_Unbounded_String;
         end if;

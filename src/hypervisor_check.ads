@@ -62,6 +62,7 @@ package Hypervisor_Check is
     VirtualBox : constant String := "VirtualBox";
     Parallels : constant String := "Parallels";
     bhyve : constant String := "bhyve";
+    QEMU : constant String := "QEMU";
 
 private
 
@@ -83,6 +84,7 @@ private
     HyperV_DMI_Pattern : constant String := "Microsoft Corporation";
     VirtualBox_DMI_Pattern : constant String := "innotek GmbH";
     Parallels_DMI_Pattern : constant String := "Parallels";
+    QEMU_DMI_Pattern : constant String := "QEMU";
 
     function CPUID (Arg : Unsigned_32) return CPUID_Registers;
 
