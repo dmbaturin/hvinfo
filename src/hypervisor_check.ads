@@ -49,6 +49,8 @@ package Hypervisor_Check is
 
     function Get_DMI_Vendor_String return US.Unbounded_String;
 
+    function Get_DMI_Product_Name return US.Unbounded_String;
+
     function Command_Succeeds (Command : String) return Boolean;
 
     function VirtualBox_PCI_Present return Boolean;
@@ -71,6 +73,7 @@ private
 
     -- Linux-specific file names etc.
     Linux_Sys_Vendor_File : constant String := "/sys/class/dmi/id/sys_vendor";
+    Linux_Sys_Product_File : constant String := "/sys/class/dmi/id/product_name";
     Linux_Sys_HV_Type_File : constant String := "/sys/hypervisor/type";
 
     -- FreeBSD-specific file names, commands etc.
@@ -85,6 +88,7 @@ private
     VirtualBox_DMI_Pattern : constant String := "innotek GmbH";
     Parallels_DMI_Pattern : constant String := "Parallels";
     QEMU_DMI_Pattern : constant String := "QEMU";
+    KVM_DMI_Pattern : constant String := "KVM Virtual Machine";
 
     function CPUID (Arg : Unsigned_32) return CPUID_Registers;
 

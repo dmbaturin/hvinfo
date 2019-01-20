@@ -188,6 +188,24 @@ package body Hypervisor_Check is
         return Name;
     end Get_DMI_Vendor_String;
 
+    function Get_DMI_Product_Name return US.Unbounded_String is
+        Product_Name, Vendor_Name : US.Unbounded_String;
+    begin
+        if Config.Linux then
+            Product_Name := Head_Of_File (Linux_Sys_Product_File);
+        else
+            raise OS_Not_Supported;
+        end if;
+
+        if Contains (Product_Name, KVM_DMI_Pattern) then
+            Vendor_Name := US.To_Unbounded_String (KVM);
+        else
+            Vendor_Name := US.Null_Unbounded_String;
+        end if;
+
+        return Vendor_Name;
+    end Get_DMI_Product_Name;
+
     function Get_DMI_Vendor_Name (Vendor_String : US.Unbounded_String) return US.Unbounded_String is
         Vendor_Name : US.Unbounded_String;
     begin

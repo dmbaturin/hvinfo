@@ -120,6 +120,12 @@ begin
             if SMBIOS_HV_Name /= Null_Unbounded_String then
                 Hypervisor_Name := SMBIOS_HV_Name;
                 Hypervisor_Detected := True;
+
+                -- Special case: QEMU sets different product name for
+                -- emulated and KVM-accelerated machines
+                if Get_DMI_Product_Name = KVM then
+                    Hypervisor_Name := US.To_Unbounded_String (KVM);
+                end if;
             else
                 if Debug then
                     UIO.Put_Line (IO.Standard_Error, "DMI vendor name is: """ & SMBIOS_Vendor & """");
