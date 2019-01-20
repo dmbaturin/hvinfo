@@ -141,6 +141,8 @@ package body Hypervisor_Check is
 	Vendor_String := Get_Vendor_String;
         if Vendor_String = "KVMKVMKVM" then
             Vendor_Name := To_Unbounded_String (KVM);
+        elsif Vendor_String = "TCGTCGTCGTCG" then
+            Vendor_Name := To_Unbounded_String (QEMU);
         elsif Vendor_String = "XenVMMXenVMM" then
             Vendor_Name := To_Unbounded_String (Xen_HVM);
         elsif Vendor_String = "VMwareVMware" then
